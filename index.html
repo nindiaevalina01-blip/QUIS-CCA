@@ -25,14 +25,15 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow: hidden; /* Mencegah scroll bar muncul pada body */
         }
 
         /* Slide Frame - Ultra Wide Landscape */
         .presentation-box {
             width: 96vw;
             max-width: 1400px; 
-            height: 750px;     
+            height: 85vh;     /* Menggunakan vh agar menyesuaikan tinggi layar */
+            min-height: 600px;
             background: white;
             border-radius: 50px;
             box-shadow: 0 40px 80px rgba(0,0,0,0.15);
@@ -194,6 +195,24 @@
         }
         
         #music-toggle:hover { transform: rotate(15deg) scale(1.1); }
+
+        /* Scroll Hint Icon */
+        .scroll-hint {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #94a3b8;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-5px);}
+            60% {transform: translateX(-50%) translateY(-3px);}
+        }
     </style>
 </head>
 <body>
@@ -212,7 +231,7 @@
         <i id="music-icon" class="fas fa-music"></i>
     </button>
 
-    <div class="presentation-box">
+    <div class="presentation-box" id="presentation-box">
         <!-- Slide 0: Start -->
         <div class="slide active" id="slide-start">
             <i class="fas fa-bible" style="font-size: 130px; color: #0ea5e9; margin-bottom: 40px;"></i>
@@ -221,6 +240,7 @@
             <div style="margin-top: 60px;">
                 <button class="btn btn-reveal" onclick="startQuiz()">Mulai Kuis! <i class="fas fa-play"></i></button>
             </div>
+            <div class="scroll-hint">Gulir ke bawah untuk mulai <i class="fas fa-mouse"></i></div>
         </div>
 
         <!-- Dynamic Question Slides -->
@@ -260,11 +280,13 @@
         ];
 
         const container = document.getElementById('quiz-slides-container');
+        const presentationBox = document.getElementById('presentation-box');
         const bgMusic = document.getElementById('bg-music');
         const sfxCheer = document.getElementById('sfx-cheer');
         
         let currentSlideIdx = 0;
         let isMusicPlaying = false;
+        let isThrottled = false; // Untuk mencegah scroll terlalu cepat
 
         // Create Slides
         questions.forEach((item, index) => {
@@ -296,7 +318,6 @@
             allSlides[idx].classList.add('active');
             
             const nav = document.getElementById('nav-controls');
-            // Sembunyikan navigasi di slide awal dan akhir
             if(idx === 0 || idx === allSlides.length - 1) {
                 nav.style.display = 'none';
             } else {
@@ -327,7 +348,6 @@
             document.getElementById(`answer-${idx}`).style.display = 'block';
             document.getElementById(`reveal-btn-${idx}`).style.display = 'none';
             
-            // Efek Suara Sorakan Heboh saat jawaban dibuka
             sfxCheer.currentTime = 0;
             sfxCheer.play().catch(e => console.warn("Audio play blocked", e));
         }
@@ -346,6 +366,29 @@
                 icon.className = 'fas fa-music';
             }
         }
+
+        // Fitur Scroll Navigation
+        window.addEventListener('wheel', (e) => {
+            if (isThrottled) return;
+
+            isThrottled = true;
+            setTimeout(() => { isThrottled = false; }, 800); // Jeda 0.8 detik antar scroll
+
+            if (e.deltaY > 0) {
+                // Scroll bawah = Selanjutnya
+                if (currentSlideIdx === 0 && !isMusicPlaying) toggleMusic();
+                nextSlide();
+            } else if (e.deltaY < 0) {
+                // Scroll atas = Kembali
+                prevSlide();
+            }
+        });
+
+        // Fitur Navigasi Keyboard (Opsional tapi berguna)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+        });
 
         window.onload = () => {
             showSlide(0);
