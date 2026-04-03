@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerdas Cermat Alkitab Sekolah Minggu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff823a;
+            --secondary: #bc84ee;
+            --accent: #11caa0;
+            --bg-light: #f0f9ff;
+            --text-dark: #1e293b;
+        }
+
+        body {
+            background-color: #cbd5e1;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Fredoka', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .slide {
+            width: 95vw;
+            max-width: 900px;
+            height: 600px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            background-image: radial-gradient(circle at 90% 10%, rgba(255, 130, 58, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 10% 90%, rgba(188, 132, 238, 0.05) 0%, transparent 40%);
+        }
+
+        .slide-header {
+            font-family: 'Comfortaa', cursive;
+            font-size: 36px;
+            color: var(--primary);
+            border-bottom: 4px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 32px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .reveal-box {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .box-soal { background: #f1f5f9; border: 3px dashed var(--secondary); }
+        .box-jawaban { 
+            background: #dcfd8b; 
+            border: 3px solid var(--accent); 
+            opacity: 0; 
+            transform: scale(0.5);
+            pointer-events: none;
+        }
+
+        .box-jawaban.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .soal-content { opacity: 0; transition: 0.3s; }
+        .soal-content.active { opacity: 1; }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            padding: 12px 25px;
+            color: white;
+            border-radius: 50px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        .btn:active { transform: translateY(3px); box-shadow: none; }
+        .btn-soal { background: var(--primary); }
+        .btn-jawaban { background: var(--accent); }
+
+        .footer-info {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .icon-top {
+            font-size: 50px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Judul Utama -->
+    <div class="slide" style="background: var(--primary); color: white; justify-content: center; align-items: center; text-align: center;">
+        <h1 style="font-size: 70px; margin: 0; font-family: 'Comfortaa';">CERDAS CERMAT</h1>
+        <h2 style="font-size: 40px; margin: 0;">ALKITAB</h2>
+        <p style="font-size: 24px; margin-top: 20px;">Edisi Anak Sekolah Minggu</p>
+        <i class="fa-solid fa-book-bible" style="font-size: 100px; margin-top: 30px;"></i>
+    </div>
+
+    <!-- Generate Slides via Loop logic manual -->
+    
+    <!-- DATA SOAL 1 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 1</div>
+        <div class="content">
+            <i class="fa-solid fa-fish-fins icon-top"></i>
+            <div class="question-text">Berapa jumlah ikan dalam peristiwa Danau Tiberias?</div>
+        </div>
+        <div class="footer-info">Halaman 1</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 1</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q1">Berapa jumlah ikan dalam peristiwa Danau Tiberias?</div></div>
+            <div class="reveal-box box-jawaban" id="a1"><div style="font-size: 45px; font-weight: bold; color: #065f46;">153 EKOR!</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q1')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a1')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 21:11)</p>
+        </div>
+        <div class="footer-info">Halaman 2</div>
+    </div>
+
+    <!-- DATA SOAL 2 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 2</div>
+        <div class="content">
+            <i class="fa-solid fa-heart icon-top" style="color: #ef4444;"></i>
+            <div class="question-text">Apa perintah utama Yesus kepada murid-murid-Nya dalam Yohanes 15:12?</div>
+        </div>
+        <div class="footer-info">Halaman 3</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 2</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q2">Apa perintah utama Yesus kepada murid-Nya?</div></div>
+            <div class="reveal-box box-jawaban" id="a2"><div style="font-size: 40px; font-weight: bold; color: #065f46;">SALING MENGASIHI</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q2')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a2')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 15:12)</p>
+        </div>
+        <div class="footer-info">Halaman 4</div>
+    </div>
+
+    <!-- DATA SOAL 3 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 3</div>
+        <div class="content">
+            <i class="fa-solid fa-mountain icon-top"></i>
+            <div class="question-text">Apakah arti dari Golgota?</div>
+        </div>
+        <div class="footer-info">Halaman 5</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 3</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q3">Apakah arti dari Golgota?</div></div>
+            <div class="reveal-box box-jawaban" id="a3"><div style="font-size: 40px; font-weight: bold; color: #065f46;">BUKIT TENGKORAK</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q3')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a3')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 19:17)</p>
+        </div>
+        <div class="footer-info">Halaman 6</div>
+    </div>
+
+    <!-- DATA SOAL 4 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 4</div>
+        <div class="content">
+            <i class="fa-solid fa-seedling icon-top"></i>
+            <div class="question-text">Sebutkan isi dari ayat Yohanes 15:5!</div>
+        </div>
+        <div class="footer-info">Halaman 7</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 4</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q4">Isi Yohanes 15:5?</div></div>
+            <div class="reveal-box box-jawaban" id="a4"><div style="font-size: 24px; font-weight: bold; color: #065f46; padding: 10px;">"Akulah pokok anggur dan kamulah ranting-rantingnya. Barangsiapa tinggal di dalam Aku dan Aku di dalam dia, ia berbuah banyak..."</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q4')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a4')">Klik 2: Jawaban</button>
+            </div>
+        </div>
+        <div class="footer-info">Halaman 8</div>
+    </div>
+
+    <!-- DATA SOAL 5 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 5</div>
+        <div class="content">
+            <i class="fa-solid fa-person-walking-luggage icon-top"></i>
+            <div class="question-text">Yesus berkata: "Gembalakanlah domba-domba-Ku", siapakah nama murid itu?</div>
+        </div>
+        <div class="footer-info">Halaman 9</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 5</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q5">Siapa nama murid Yesus itu?</div></div>
+            <div class="reveal-box box-jawaban" id="a5"><div style="font-size: 50px; font-weight: bold; color: #065f46;">PETRUS</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q5')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a5')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 21:15-19)</p>
+        </div>
+        <div class="footer-info">Halaman 10</div>
+    </div>
+
+    <!-- DATA SOAL 6 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 6</div>
+        <div class="content">
+            <i class="fa-solid fa-pen-nib icon-top"></i>
+            <div class="question-text">Siapa yang memerintahkan memasang tulisan “Yesus orang nazaret, Raja orang Yahudi”?</div>
+        </div>
+        <div class="footer-info">Halaman 11</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 6</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q6">Siapakah dia?</div></div>
+            <div class="reveal-box box-jawaban" id="a6"><div style="font-size: 50px; font-weight: bold; color: #065f46;">PILATUS</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q6')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a6')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 19:19)</p>
+        </div>
+        <div class="footer-info">Halaman 12</div>
+    </div>
+
+    <!-- DATA SOAL 7 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 7</div>
+        <div class="content">
+            <i class="fa-solid fa-hands-holding icon-top"></i>
+            <div class="question-text">Siapa yang menguburkan Yesus bersama dengan Yusuf dari Arimatea?</div>
+        </div>
+        <div class="footer-info">Halaman 13</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 7</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q7">Siapa orang tersebut?</div></div>
+            <div class="reveal-box box-jawaban" id="a7"><div style="font-size: 45px; font-weight: bold; color: #065f46;">NIKODEMUS</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q7')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a7')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 19:39)</p>
+        </div>
+        <div class="footer-info">Halaman 14</div>
+    </div>
+
+    <!-- DATA SOAL 8 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 8</div>
+        <div class="content">
+            <i class="fa-solid fa-synagogue icon-top"></i>
+            <div class="question-text">Siapa nama Imam Besar pada saat Yesus disalib?</div>
+        </div>
+        <div class="footer-info">Halaman 15</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 8</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q8">Siapa nama Imam Besar itu?</div></div>
+            <div class="reveal-box box-jawaban" id="a8"><div style="font-size: 50px; font-weight: bold; color: #065f46;">HANAS</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q8')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a8')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 18:13)</p>
+        </div>
+        <div class="footer-info">Halaman 16</div>
+    </div>
+
+    <!-- DATA SOAL 9 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 9</div>
+        <div class="content">
+            <i class="fa-solid fa-cross icon-top"></i>
+            <div class="question-text">Berapa jumlah orang yang disalibkan bersama-sama dengan Yesus?</div>
+        </div>
+        <div class="footer-info">Halaman 17</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 9</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q9">Berapa jumlah orangnya?</div></div>
+            <div class="reveal-box box-jawaban" id="a9"><div style="font-size: 50px; font-weight: bold; color: #065f46;">2 ORANG</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q9')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a9')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 19:18)</p>
+        </div>
+        <div class="footer-info">Halaman 18</div>
+    </div>
+
+    <!-- DATA SOAL 10 -->
+    <div class="slide">
+        <div class="slide-header">Pertanyaan 10</div>
+        <div class="content">
+            <i class="fa-solid fa-sun icon-top" style="color: #facc15;"></i>
+            <div class="question-text">Siapa yang pertama kali datang pagi-pagi sekali ke kubur Yesus?</div>
+        </div>
+        <div class="footer-info">Halaman 19</div>
+    </div>
+    <div class="slide">
+        <div class="slide-header">Kunci Jawaban 10</div>
+        <div class="content">
+            <div class="reveal-box box-soal"><div class="soal-content" id="q10">Siapakah wanita itu?</div></div>
+            <div class="reveal-box box-jawaban" id="a10"><div style="font-size: 40px; font-weight: bold; color: #065f46;">MARIA MAGDALENA</div></div>
+            <div class="btn-group">
+                <button class="btn btn-soal" onclick="reveal('q10')">Klik 1: Soal</button>
+                <button class="btn btn-jawaban" onclick="revealAns('a10')">Klik 2: Jawaban</button>
+            </div>
+            <p style="margin-top: 10px; color: #64748b;">(Yohanes 20:1)</p>
+        </div>
+        <div class="footer-info">Halaman 20</div>
+    </div>
+
+    <!-- Slide Penutup -->
+    <div class="slide" style="background: var(--accent); color: white; justify-content: center; align-items: center; text-align: center;">
+        <h1 style="font-size: 60px; margin: 0;">HEBAT!<br>Kalian Luar Biasa!</h1>
+        <i class="fa-solid fa-star" style="font-size: 80px; margin-top: 20px;"></i>
+    </div>
+
+    <script>
+        // Fungsi memutar suara heboh (Tepuk tangan)
+        function playApplause() {
+            const audio = new Audio('https://www.soundjay.com/human/applause-01.mp3');
+            audio.play().catch(e => console.log("Audio play failed: ", e));
+        }
+
+        // Fungsi memunculkan teks soal (Klik 1)
+        function reveal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        // Fungsi memunculkan jawaban + suara (Klik 2)
+        function revealAns(id) {
+            const el = document.getElementById(id);
+            if(!el.classList.contains('active')) {
+                el.classList.add('active');
+                playApplause(); // Suara otomatis saat jawaban terbuka
+            }
+        }
+    </script>
+</body>
+</html>
